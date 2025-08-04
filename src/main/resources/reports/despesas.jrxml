@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="DespesasReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="550e8400-e29b-41d4-a716-446655440000">
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+
+    <field name="protocolo" class="java.lang.String"/>
+    <field name="credor" class="java.lang.String"/>
+    <field name="valor" class="java.math.BigDecimal"/>
+    <field name="status" class="java.lang.String"/>
+
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Relatório de Despesas]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="20">
+            <textField><reportElement x="0" y="0" width="130" height="20"/><textFieldExpression><![CDATA["Protocolo"]]></textFieldExpression></textField>
+            <textField><reportElement x="130" y="0" width="150" height="20"/><textFieldExpression><![CDATA["Credor"]]></textFieldExpression></textField>
+            <textField><reportElement x="280" y="0" width="100" height="20"/><textFieldExpression><![CDATA["Valor"]]></textFieldExpression></textField>
+            <textField><reportElement x="380" y="0" width="175" height="20"/><textFieldExpression><![CDATA["Status"]]></textFieldExpression></textField>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField><reportElement x="0" y="0" width="130" height="20"/><textFieldExpression><![CDATA[$F{protocolo}]]></textFieldExpression></textField>
+            <textField><reportElement x="130" y="0" width="150" height="20"/><textFieldExpression><![CDATA[$F{credor}]]></textFieldExpression></textField>
+            <textField><reportElement x="280" y="0" width="100" height="20"/><textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression></textField>
+            <textField><reportElement x="380" y="0" width="175" height="20"/><textFieldExpression><![CDATA[$F{status}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>
