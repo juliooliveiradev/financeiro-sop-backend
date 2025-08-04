@@ -1,4 +1,4 @@
-package com.sop.financeiro;
+package com.sop.financeiro.service;
 
 import com.sop.financeiro.dto.PagamentoDTO;
 import com.sop.financeiro.exception.BadRequestException;
@@ -9,7 +9,6 @@ import com.sop.financeiro.model.Pagamento;
 import com.sop.financeiro.repository.DespesaRepository;
 import com.sop.financeiro.repository.EmpenhoRepository;
 import com.sop.financeiro.repository.PagamentoRepository;
-import com.sop.financeiro.service.PagamentoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;

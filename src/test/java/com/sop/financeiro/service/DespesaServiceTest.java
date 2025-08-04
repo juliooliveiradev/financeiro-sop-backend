@@ -1,4 +1,4 @@
-package com.sop.financeiro;
+package com.sop.financeiro.service;
 
 
 import com.sop.financeiro.dto.DespesaDTO;
@@ -7,7 +7,6 @@ import com.sop.financeiro.exception.ResourceNotFoundException;
 import com.sop.financeiro.model.Despesa;
 import com.sop.financeiro.model.Empenho;
 import com.sop.financeiro.repository.DespesaRepository;
-import com.sop.financeiro.service.DespesaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
