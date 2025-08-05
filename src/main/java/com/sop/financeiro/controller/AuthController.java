@@ -5,7 +5,11 @@ import com.sop.financeiro.dto.LoginResponse;
 import com.sop.financeiro.model.User;
 import com.sop.financeiro.repository.UserRepository;
 import com.sop.financeiro.util.JwtTokenUtil;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Autenticação", description = "Endpoints de autenticação e registro")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -33,6 +38,7 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Operation(summary = "Realizar login e obter token JWT")
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -45,6 +51,7 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponse(token, userDetails.getUsername()));
     }
 
+    @Operation(summary = "Registrar novo usuário")
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody LoginRequest registrationRequest) {
         if (userRepository.findByUsername(registrationRequest.username()).isPresent()) {

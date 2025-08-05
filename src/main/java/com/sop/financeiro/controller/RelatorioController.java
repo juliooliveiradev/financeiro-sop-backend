@@ -6,6 +6,10 @@ import com.sop.financeiro.model.Despesa;
 import com.sop.financeiro.repository.DespesaRepository;
 import com.sop.financeiro.service.EmpenhoService;
 import com.sop.financeiro.service.PagamentoService;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
@@ -22,12 +26,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/relatorios")
 @RequiredArgsConstructor
+@Tag(name = "Relatórios", description = "Geração de relatórios em PDF")
+@SecurityRequirement(name = "bearerAuth")
 public class RelatorioController {
 
     private final DespesaRepository despesaRepository;
     private final EmpenhoService empenhoService;
     private final PagamentoService pagamentoService;
 
+    @Operation(summary = "Gerar relatório PDF de despesas")
     @GetMapping("/despesas")
     public void gerarRelatorio(HttpServletResponse response) throws Exception {
         List<Despesa> despesas = despesaRepository.findAll();
@@ -45,6 +52,7 @@ public class RelatorioController {
         JasperExportManager.exportReportToPdfStream(print, response.getOutputStream());
     }
 
+    @Operation(summary = "Gerar relatório PDF de empenhos por protocolo de despesa")
     @GetMapping("/empenhos")
     public void gerarRelatorioEmpenhos(HttpServletResponse response, @RequestParam String protocolo) throws Exception {
         List<EmpenhoDTO> empenhos = empenhoService.listarPorDespesa(protocolo);
@@ -61,6 +69,7 @@ public class RelatorioController {
         JasperExportManager.exportReportToPdfStream(print, response.getOutputStream());
     }
 
+    @Operation(summary = "Gerar relatório PDF de pagamentos por número do empenho")
     @GetMapping("/pagamentos")
     public void gerarRelatorioPagamentos(HttpServletResponse response, @RequestParam String numero) throws Exception {
         List<PagamentoDTO> pagamentos = pagamentoService.listarPorEmpenho(numero);

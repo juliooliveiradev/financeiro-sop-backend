@@ -1,6 +1,8 @@
 package com.sop.financeiro.config;
 
 import com.sop.financeiro.service.AuthService;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,10 +25,12 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@SecurityScheme(name = SecurityConfig.SECURITY, type = SecuritySchemeType.HTTP, bearerFormat = "JWT",scheme = "bearer")
 public class SecurityConfig {
 
         private final AuthService authService;
         private final JwtFilter jwtFilter;
+        public static final String SECURITY = "bearerAuth";
 
         public SecurityConfig(AuthService authService, JwtFilter jwtFilter) {
         this.authService = authService;
@@ -38,12 +42,22 @@ public class SecurityConfig {
             http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                     .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
-                     .anyRequest().authenticated()
-                )
-                     .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                    .authorizeHttpRequests(auth -> auth
+                            .requestMatchers(
+                                    "/api/auth/**",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui.html",
+                                    "/swagger-resources/**",
+                                    "/webjars/**",
+                                    "/configuration/**",
+                                    "/error",
+                                    "/docs/**"
+                            ).permitAll()
+                            .anyRequest().authenticated()
+                    )
+                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
             return http.build();
         }
 
@@ -72,6 +86,7 @@ public class SecurityConfig {
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            configuration.setAllowCredentials(true);
             source.registerCorsConfiguration("/**", configuration);
             return source;
         }
