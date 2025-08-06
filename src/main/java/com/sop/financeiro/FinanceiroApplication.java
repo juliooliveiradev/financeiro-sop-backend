@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 public class FinanceiroApplication {
 
 	public static void main(String[] args) {
+		System.out.println("🔵 Aplicação iniciando...");
 		SpringApplication.run(FinanceiroApplication.class, args);
 	}
 
